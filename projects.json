@@ -87,5 +87,59 @@
         "alt": "Riii Jewels — About & Connect"
       }
     ]
+  },
+  {
+    "id": "P4",
+    "niche": "Resin Art",
+    "live": "https://webaura-iii.github.io/Linayarts/",
+    "name": "LINAYARTS",
+    "desc": "Resin Art",
+    "tags": [
+      "HTML / CSS / JS",
+      "E-COMMERCE",
+      "RESIN ART"
+    ],
+    "images": [
+      {
+        "src": "https://ibb.co/LzHdnvXP",
+        "alt": "Bismillah"
+      },
+      {
+        "src": "https://ibb.co/wrSyTkmQ",
+        "alt": "Calender"
+      },
+      {
+        "src": "https://ibb.co/jk5z1w5w",
+        "alt": "chandeliar"
+      },
+      {
+        "src": "https://ibb.co/VYqCddZg",
+        "alt": "heart"
+      },
+      {
+        "src": "https://ibb.co/m53JwJHn",
+        "alt": "Hexagonal-frame"
+      },
+      {
+        "src": "https://ibb.co/bjY9wTPZ",
+        "alt": "Lara"
+      },
+      {
+        "src": "https://ibb.co/zTNxTjMH",
+        "alt": "Ocean"
+      },
+      {
+        "src": "https://ibb.co/FLJFS23b",
+        "alt": "Pendants"
+      },
+      {
+        "src": "https://ibb.co/Q3TjH4rT",
+        "alt": "Red Whit"
+      },
+      {
+        "src": "https://ibb.co/m5P4D4QK",
+        "alt": "Tray"
+      }
+    ]
   }
 ]
