@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Webaura Admin — Portfolio Manager</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+<style>
+  :root{
+    --black:#000;--dark:#0a0a0a;--card:#111;--card2:#161616;
+    --cyan:#00e5ff;--purple:#9c27b0;--white:#fff;--grey:#aaa;
+    --border:rgba(0,229,255,0.18);--glow:0 0 18px rgba(0,229,255,.35);
+    --fd:'Orbitron',monospace;--fb:'Space Grotesk',sans-serif;
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  body{background:var(--black);color:var(--white);font-family:var(--fb);min-height:100vh;}
+  .wrap{max-width:900px;margin:0 auto;padding:32px 20px 80px;}
+  h1{font-family:var(--fd);font-size:clamp(18px,4vw,26px);letter-spacing:2px;margin-bottom:6px;}
+  h1 .c{color:var(--cyan);}
+  .sub{color:var(--grey);font-size:13px;margin-bottom:28px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px;}
+  label{display:block;font-family:var(--fd);font-size:10px;letter-spacing:1.5px;color:var(--cyan);margin-bottom:6px;text-transform:uppercase;}
+  input,textarea{
+    width:100%;background:var(--card2);border:1px solid var(--border);border-radius:6px;
+    color:var(--white);padding:10px 12px;font-family:var(--fb);font-size:14px;margin-bottom:14px;
+  }
+  input:focus,textarea:focus{outline:none;border-color:var(--cyan);}
+  textarea{resize:vertical;min-height:60px;}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  @media(max-width:600px){.row2{grid-template-columns:1fr;}}
+  button{
+    font-family:var(--fd);font-size:11px;letter-spacing:2px;text-transform:uppercase;
+    border:1px solid var(--cyan);color:var(--cyan);background:transparent;
+    padding:10px 20px;border-radius:6px;cursor:pointer;transition:all .2s;
+  }
+  button:hover{background:var(--cyan);color:#000;box-shadow:var(--glow);}
+  button.danger{border-color:#ff4d6d;color:#ff4d6d;}
+  button.danger:hover{background:#ff4d6d;color:#000;box-shadow:0 0 18px rgba(255,77,109,.4);}
+  button.ghost{border-color:var(--grey);color:var(--grey);}
+  button.ghost:hover{background:var(--grey);color:#000;box-shadow:none;}
+  button:disabled{opacity:.4;cursor:not-allowed;}
+  .btnrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+  .proj-block{border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:18px;position:relative;}
+  .proj-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+  .proj-head span{font-family:var(--fd);font-size:12px;color:var(--purple);letter-spacing:1px;}
+  .img-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
+  .img-row input{margin-bottom:0;flex:1;}
+  .tag-input-hint{font-size:11px;color:var(--grey);margin:-8px 0 14px;}
+  #loginScreen,#appScreen{display:none;}
+  #status{
+    position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+    background:var(--card);border:1px solid var(--cyan);border-radius:8px;
+    padding:12px 22px;font-family:var(--fd);font-size:11px;letter-spacing:1px;
+    color:var(--cyan);opacity:0;pointer-events:none;transition:opacity .3s;z-index:999;
+    max-width:90vw;text-align:center;
+  }
+  #status.show{opacity:1;}
+  #status.err{border-color:#ff4d6d;color:#ff4d6d;}
+  .top-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;flex-wrap:wrap;gap:10px;}
+  .small-note{color:var(--grey);font-size:12px;line-height:1.6;}
+  .logout{font-size:10px;color:var(--grey);cursor:pointer;text-decoration:underline;}
+  .add-card-btn{width:100%;padding:16px;border:1px dashed var(--border);}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginScreen" class="wrap" style="display:block;max-width:480px;padding-top:80px;">
+  <h1><span class="c">WEBAURA</span> ADMIN</h1>
+  <p class="sub">Connect once — your token stays only in this browser.</p>
+  <div class="card">
+    <label>GitHub Personal Access Token</label>
+    <input type="password" id="ghToken" placeholder="ghp_..." />
+    <label>Repo Owner (username or org)</label>
+    <input type="text" id="ghOwner" placeholder="e.g. webaura-iii" />
+    <label>Repo Name</label>
+    <input type="text" id="ghRepo" placeholder="e.g. webaura-site" />
+    <label>Branch</label>
+    <input type="text" id="ghBranch" value="main" />
+    <label>Path to projects.json in repo</label>
+    <input type="text" id="ghPath" value="projects.json" />
+    <div class="btnrow">
+      <button onclick="connect()">Connect →</button>
+    </div>
+    <p class="small-note" style="margin-top:10px">
+      Need a token? GitHub → Settings → Developer settings → Personal access tokens → Fine-grained token →
+      scope it to this repo only, with <strong>Contents: Read and write</strong> permission.
+    </p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="appScreen" class="wrap">
+  <div class="top-bar">
+    <div>
+      <h1><span class="c">WEBAURA</span> PORTFOLIO ADMIN</h1>
+      <p class="sub" id="repoLabel"></p>
+    </div>
+    <span class="logout" onclick="logout()">disconnect</span>
+  </div>
+
+  <div id="projectsList"></div>
+  <button class="add-card-btn" onclick="addProject()">+ ADD NEW PROJECT</button>
+
+  <div class="btnrow" style="margin-top:24px;">
+    <button onclick="saveToGitHub()" id="saveBtn">💾 SAVE &amp; PUBLISH</button>
+    <button class="ghost" onclick="reload()">↻ RELOAD FROM GITHUB</button>
+  </div>
+  <p class="small-note" style="margin-top:14px">
+    Saving commits directly to <code id="pathLabel"></code> on your repo. Vercel will auto-redeploy the live site within about a minute.
+  </p>
+</div>
+
+<div id="status"></div>
+
+<script>
+let gh = {};       // { token, owner, repo, branch, path }
+let projects = [];
+let fileSha = null;
+
+function showStatus(msg, isErr=false){
+  const el = document.getElementById('status');
+  el.textContent = msg;
+  el.classList.toggle('err', isErr);
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'), 3500);
+}
+
+/* ── Persist connection settings (not the token) for convenience ── */
+function loadSavedConfig(){
+  const saved = localStorage.getItem('webaura_admin_config');
+  if(saved){
+    try{
+      const c = JSON.parse(saved);
+      document.getElementById('ghOwner').value = c.owner || '';
+      document.getElementById('ghRepo').value = c.repo || '';
+      document.getElementById('ghBranch').value = c.branch || 'main';
+      document.getElementById('ghPath').value = c.path || 'projects.json';
+    }catch(e){}
+  }
+  const savedToken = localStorage.getItem('webaura_admin_token');
+  if(savedToken) document.getElementById('ghToken').value = savedToken;
+}
+
+async function connect(){
+  const token  = document.getElementById('ghToken').value.trim();
+  const owner  = document.getElementById('ghOwner').value.trim();
+  const repo   = document.getElementById('ghRepo').value.trim();
+  const branch = document.getElementById('ghBranch').value.trim() || 'main';
+  const path   = document.getElementById('ghPath').value.trim() || 'projects.json';
+
+  if(!token || !owner || !repo){
+    showStatus('⚠ Fill in token, owner, and repo', true);
+    return;
+  }
+  gh = { token, owner, repo, branch, path };
+
+  try{
+    await fetchProjects();
+    localStorage.setItem('webaura_admin_config', JSON.stringify({owner,repo,branch,path}));
+    localStorage.setItem('webaura_admin_token', token);
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('appScreen').style.display = 'block';
+    document.getElementById('repoLabel').textContent = `${owner}/${repo} · ${branch}`;
+    document.getElementById('pathLabel').textContent = path;
+    renderProjects();
+    showStatus('✦ Connected');
+  }catch(err){
+    showStatus('⚠ Could not connect — check token & repo details', true);
+    console.error(err);
+  }
+}
+
+function logout(){
+  localStorage.removeItem('webaura_admin_token');
+  document.getElementById('appScreen').style.display = 'none';
+  document.getElementById('loginScreen').style.display = 'block';
+}
+
+async function ghApiFetch(url, options={}){
+  const res = await fetch(url, {
+    ...options,
+    headers: {
+      'Authorization': `Bearer ${gh.token}`,
+      'Accept': 'application/vnd.github+json',
+      ...(options.headers||{})
+    }
+  });
+  if(!res.ok){
+    const body = await res.text();
+    throw new Error(`GitHub API ${res.status}: ${body}`);
+  }
+  return res.json();
+}
+
+async function fetchProjects(){
+  const url = `https://api.github.com/repos/${gh.owner}/${gh.repo}/contents/${gh.path}?ref=${gh.branch}`;
+  const data = await ghApiFetch(url);
+  fileSha = data.sha;
+  const decoded = decodeURIComponent(escape(atob(data.content)));
+  projects = JSON.parse(decoded);
+}
+
+async function reload(){
+  try{
+    await fetchProjects();
+    renderProjects();
+    showStatus('✦ Reloaded from GitHub');
+  }catch(err){
+    showStatus('⚠ Reload failed', true);
+    console.error(err);
+  }
+}
+
+async function saveToGitHub(){
+  const btn = document.getElementById('saveBtn');
+  btn.disabled = true;
+  try{
+    collectFromForm();
+    const content = JSON.stringify(projects, null, 2);
+    const encoded = btoa(unescape(encodeURIComponent(content)));
+    const url = `https://api.github.com/repos/${gh.owner}/${gh.repo}/contents/${gh.path}`;
+    const body = {
+      message: `Update portfolio via admin panel — ${new Date().toLocaleString()}`,
+      content: encoded,
+      sha: fileSha,
+      branch: gh.branch
+    };
+    const data = await ghApiFetch(url, { method:'PUT', body: JSON.stringify(body) });
+    fileSha = data.content.sha;
+    showStatus('✦ Saved! Vercel is redeploying now');
+  }catch(err){
+    showStatus('⚠ Save failed — see console', true);
+    console.error(err);
+  }finally{
+    btn.disabled = false;
+  }
+}
+
+/* ── Render form from projects[] ── */
+function renderProjects(){
+  const list = document.getElementById('projectsList');
+  list.innerHTML = projects.map((p, i) => `
+    <div class="proj-block" data-idx="${i}">
+      <div class="proj-head">
+        <span>PROJECT ${i+1}</span>
+        <button class="danger" onclick="removeProject(${i})">✕ REMOVE</button>
+      </div>
+      <div class="row2">
+        <div><label>Project Name</label><input data-field="name" value="${esc(p.name)}"/></div>
+        <div><label>Slug / ID (no spaces)</label><input data-field="id" value="${esc(p.id)}"/></div>
+      </div>
+      <div class="row2">
+        <div><label>Niche / Category</label><input data-field="niche" value="${esc(p.niche)}"/></div>
+        <div><label>Live Site URL</label><input data-field="live" value="${esc(p.live)}"/></div>
+      </div>
+      <label>Description</label>
+      <textarea data-field="desc">${esc(p.desc)}</textarea>
+      <label>Tags (comma separated)</label>
+      <input data-field="tags" value="${esc((p.tags||[]).join(', '))}"/>
+      <p class="tag-input-hint">e.g. HTML / CSS, NETLIFY, INSTAGRAM DM, BHIWANDI</p>
+      <label>Images (URL — from ibb.co, imgur, etc.)</label>
+      <div class="img-list">
+        ${(p.images||[]).map((img,j)=>`
+          <div class="img-row">
+            <input data-img-src="${j}" value="${esc(img.src)}" placeholder="Image URL"/>
+            <input data-img-alt="${j}" value="${esc(img.alt||'')}" placeholder="Alt text" style="max-width:160px"/>
+            <button class="danger" style="padding:8px 12px" onclick="removeImage(${i},${j})">✕</button>
+          </div>
+        `).join('')}
+      </div>
+      <div class="btnrow">
+        <button class="ghost" onclick="addImage(${i})">+ ADD IMAGE</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function esc(str){
+  return String(str||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function collectFromForm(){
+  document.querySelectorAll('.proj-block').forEach(block=>{
+    const idx = +block.dataset.idx;
+    const p = projects[idx];
+    block.querySelectorAll('[data-field]').forEach(input=>{
+      const field = input.dataset.field;
+      if(field === 'tags'){
+        p.tags = input.value.split(',').map(t=>t.trim()).filter(Boolean);
+      } else {
+        p[field] = input.value.trim();
+      }
+    });
+    const srcInputs = block.querySelectorAll('[data-img-src]');
+    const altInputs = block.querySelectorAll('[data-img-alt]');
+    p.images = Array.from(srcInputs).map((si,j)=>({
+      src: si.value.trim(),
+      alt: altInputs[j] ? altInputs[j].value.trim() : ''
+    })).filter(img=>img.src);
+  });
+}
+
+function addProject(){
+  collectFromForm();
+  projects.push({
+    id: 'new' + (projects.length+1),
+    niche: 'CATEGORY',
+    live: 'https://',
+    name: 'NEW PROJECT',
+    desc: 'Short description of the project.',
+    tags: [],
+    images: []
+  });
+  renderProjects();
+}
+
+function removeProject(i){
+  collectFromForm();
+  if(!confirm('Remove this project from the portfolio?')) return;
+  projects.splice(i,1);
+  renderProjects();
+}
+
+function addImage(i){
+  collectFromForm();
+  projects[i].images.push({src:'', alt:''});
+  renderProjects();
+}
+
+function removeImage(i,j){
+  collectFromForm();
+  projects[i].images.splice(j,1);
+  renderProjects();
+}
+
+loadSavedConfig();
+document.getElementById('loginScreen').style.display = 'block';
+</script>
+</body>
+</html>
