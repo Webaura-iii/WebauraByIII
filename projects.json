@@ -5,11 +5,25 @@
     "live": "https://littlebloomcraft.netlify.app/",
     "name": "LITTLE BLOOM CRAFT",
     "desc": "Elegant website for Azka's fuzzy wire art business — bouquets, animal pens, keychains & frames. Orders via Instagram DM, deployed on Netlify.",
-    "tags": ["HTML / CSS", "NETLIFY", "INSTAGRAM DM", "BHIWANDI"],
+    "tags": [
+      "HTML / CSS",
+      "NETLIFY",
+      "INSTAGRAM DM",
+      "BHIWANDI"
+    ],
     "images": [
-      { "src": "https://i.ibb.co/vvfXLG23/Home.png", "alt": "Little Bloom Craft — Home" },
-      { "src": "https://i.ibb.co/cSypkSnk/Catalog.png", "alt": "Little Bloom Craft — Collection" },
-      { "src": "https://i.ibb.co/ccT3CbJV/Connet.png", "alt": "Little Bloom Craft — Order" }
+      {
+        "src": "https://i.ibb.co/vvfXLG23/Home.png",
+        "alt": "Little Bloom Craft — Home"
+      },
+      {
+        "src": "https://i.ibb.co/cSypkSnk/Catalog.png",
+        "alt": "Little Bloom Craft — Collection"
+      },
+      {
+        "src": "https://i.ibb.co/ccT3CbJV/Connet.png",
+        "alt": "Little Bloom Craft — Order"
+      }
     ]
   },
   {
@@ -18,12 +32,29 @@
     "live": "https://webaura-iii.github.io/MadCro/",
     "name": "STITCHLOVE",
     "desc": "Full 6-page crochet brand for Ayesha — catalog (₹199–₹849), reviews carousel, FAQ accordion, brand story & Instagram + Email contact. GitHub Pages hosted.",
-    "tags": ["HTML / CSS / JS", "GITHUB PAGES", "6 PAGES", "CROCHET"],
+    "tags": [
+      "HTML / CSS / JS",
+      "GITHUB PAGES",
+      "6 PAGES",
+      "CROCHET"
+    ],
     "images": [
-      { "src": "https://i.ibb.co/LXtYjfwr/Home.jpg", "alt": "StitchLove — Home" },
-      { "src": "https://i.ibb.co/M5khHSN4/Catalog.jpg", "alt": "StitchLove — Catalog" },
-      { "src": "https://i.ibb.co/ns4FvV20/Story.jpg", "alt": "StitchLove — Our Story" },
-      { "src": "https://i.ibb.co/TMywkkZY/Contact.jpg", "alt": "StitchLove — Contact" }
+      {
+        "src": "https://i.ibb.co/LXtYjfwr/Home.jpg",
+        "alt": "StitchLove — Home"
+      },
+      {
+        "src": "https://i.ibb.co/M5khHSN4/Catalog.jpg",
+        "alt": "StitchLove — Catalog"
+      },
+      {
+        "src": "https://i.ibb.co/ns4FvV20/Story.jpg",
+        "alt": "StitchLove — Our Story"
+      },
+      {
+        "src": "https://i.ibb.co/TMywkkZY/Contact.jpg",
+        "alt": "StitchLove — Contact"
+      }
     ]
   },
   {
@@ -32,12 +63,29 @@
     "live": "https://riiijewelsbyareesha.netlify.app/",
     "name": "RIII JEWELS",
     "desc": "Full e-commerce jewellery store for Areesha — hand-picked anti-tarnish pieces with cart, order tracking, filterable collection & Instagram DM. Bhiwandi, Thane.",
-    "tags": ["HTML / CSS / JS", "E-COMMERCE", "ORDER TRACKING", "JEWELLERY"],
+    "tags": [
+      "HTML / CSS / JS",
+      "E-COMMERCE",
+      "ORDER TRACKING",
+      "JEWELLERY"
+    ],
     "images": [
-      { "src": "https://i.ibb.co/F49RgYy5/Home.png", "alt": "Riii Jewels — Home" },
-      { "src": "https://i.ibb.co/Hf9JCx9M/Collection.png", "alt": "Riii Jewels — Collection" },
-      { "src": "https://i.ibb.co/wrgR9X8P/Order-Tracking.png", "alt": "Riii Jewels — Order Tracking" },
-      { "src": "https://i.ibb.co/LhRwm7B8/Contact.png", "alt": "Riii Jewels — About & Connect" }
+      {
+        "src": "https://i.ibb.co/F49RgYy5/Home.png",
+        "alt": "Riii Jewels — Home"
+      },
+      {
+        "src": "https://i.ibb.co/Hf9JCx9M/Collection.png",
+        "alt": "Riii Jewels — Collection"
+      },
+      {
+        "src": "https://i.ibb.co/wrgR9X8P/Order-Tracking.png",
+        "alt": "Riii Jewels — Order Tracking"
+      },
+      {
+        "src": "https://i.ibb.co/LhRwm7B8/Contact.png",
+        "alt": "Riii Jewels — About & Connect"
+      }
     ]
   }
 ]
